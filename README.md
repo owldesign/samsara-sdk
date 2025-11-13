@@ -1,10 +1,14 @@
-# samsara-sdk
+# Samsara REST API
 
-Typed, ESM-first JavaScript/TypeScript client for the [Samsara API](https://developers.samsara.com/reference/overview). The SDK is generated from the public OpenAPI definition and provides:
+Typed, ESM-first JavaScript/TypeScript client for the Samsara REST API.
 
-- A strongly typed `SamsaraClient.request` method that covers every documented endpoint.
-- A `FleetApi` helper with ergonomic methods for popular fleet, driver, vehicle, and document workflows.
-- First-class browser support (relies on `fetch`) with escape hatches for custom transports and OAuth token refresh flows.
+## Features
+
+- **Spec-accurate typing** powered by `openapi-typescript`, so both requests and responses reflect the exact Samsara contract in `samsara-api.json`.
+- **Dual-runtime output** via `tsup`, shipping `dist/index.mjs`, `dist/index.cjs`, and `.d.ts` bundles for any JavaScript environment.
+- **Resource helpers** such as `client.fleet`, `client.cameras`, `client.safety`, and `client.tachograph` that collapse verbose REST calls into readable method names.
+- **Escape hatches** through `client.request` and `client.requestRaw`, letting you pick between strict path validation or fully dynamic requests.
+- **Fetch-first design** keeps the SDK browser-friendly; provide your own `fetch` implementation for Node, SSR, or serverless runtimes.
 
 ## Installation
 
@@ -119,6 +123,16 @@ const files = await client.tachograph.listVehicleFiles({
   query: { vehicleIds: ['veh-1'], startTime, endTime },
 });
 ```
+
+## Available helpers & endpoints
+
+- **Core client**
+  - `client.request({ path, method })` enforces valid path/method pairs with inferred query/body contracts.
+  - `client.requestRaw({ path, method })` skips compile-time validation so you can hit experimental or private endpoints.
+- **FleetApi (`client.fleet`)** – vehicles, drivers, assignments, and documents: `listVehicles`, `getVehicle`, `updateVehicle`, `listDrivers`, `createDriver`, `getDriver`, `updateDriver`, `listDriverVehicleAssignments`, `getVehicleStats`, `getVehicleLocations`, `listDocuments`, `createDocument`, `getDocument`, `deleteDocument`.
+- **CamerasApi (`client.cameras`)** – media capture: `listMedia`, `getMediaRetrieval`, `createMediaRetrieval`.
+- **SafetyApi (`client.safety`)** – events and scorecards: `listEvents`, `streamEvents`, `listDriverScores`, `listDriverTripScores`, `listTagGroupScores`, `listTagScores`, `listVehicleScores`, `listVehicleTripScores`, `streamDetections`.
+- **TachographApi (`client.tachograph`)** – EU compliance data: `listDriverActivity`, `listDriverFiles`, `listVehicleFiles`.
 
 ## Configuration reference
 
