@@ -1,0 +1,53 @@
+{
+  "name": "samsara-sdk",
+  "version": "0.1.0",
+  "description": "Typed client-side SDK for the Samsara API",
+  "keywords": [
+    "samsara",
+    "sdk",
+    "api",
+    "client",
+    "javascript"
+  ],
+  "license": "MIT",
+  "author": "Vadim Goncharov (https://github.com/owldesign)",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/owldesign/samsara-sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/owldesign/samsara-sdk/issues"
+  },
+  "homepage": "https://github.com/owldesign/samsara-sdk#readme",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "default": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "generate": "openapi-typescript samsara-api.json --output src/generated/openapi.ts",
+    "clean": "rimraf dist",
+    "prepare": "npm run build",
+    "test": "npm run build && node --test tests/**/*.test.mjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.25",
+    "openapi-typescript": "^6.7.0",
+    "rimraf": "^5.0.5",
+    "tsup": "^8.0.1",
+    "typescript": "^5.4.0"
+  }
+}
